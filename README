@@ -50,11 +50,12 @@ thread pools in minutes.
    (map 'list #'patron::thread-alive-p (patron::keepers-of patron))
    (map 'list #'patron::thread-alive-p (patron::workers-of patron))))
 
-(defun job ()
-  (let ((duration (random 5)))
-    (safe-format "  ~S => Sleeping... [~A]~%" (bt:current-thread) duration)
-    (sleep duration)
-    (safe-format "  ~S => Done!~%" (bt:current-thread))))
+(let ((state (make-random-state)))
+  (defun job ()
+    (let ((duration (random 5 state)))
+      (safe-format "  ~S => Sleeping... [~A]~%" (bt:current-thread) duration)
+      (sleep duration)
+      (safe-format "  ~S => Done!~%" (bt:current-thread)))))
 
 (defun report-result (job)
   (safe-format "RESULT: JOB: ~S~%" job))
