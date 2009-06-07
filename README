@@ -38,24 +38,24 @@ thread pools in minutes.
 
 (defvar *stream* *standard-output*)
 
-(defvar *stream-lock* (bt:make-lock))
+(defvar *stream-lock* (patron:make-lock))
 
 (defun safe-format (fmt &rest args)
-  (bt:with-lock-held (*stream-lock*)
+  (patron:with-lock *stream-lock*
     (apply #'format *stream* fmt args)))
 
 (defun thread-stats (patron)
   (safe-format
    "Keepers: ~{~A~^ ~}~%Workers: ~{~A~^ ~}~%"
-   (map 'list #'patron::thread-alive-p (patron::keepers-of patron))
-   (map 'list #'patron::thread-alive-p (patron::workers-of patron))))
+   (map 'list #'patron:thread-alive-p (patron::keepers-of patron))
+   (map 'list #'patron:thread-alive-p (patron::workers-of patron))))
 
 (let ((state (make-random-state)))
   (defun job ()
     (let ((duration (random 5 state)))
-      (safe-format "  ~S => Sleeping... [~A]~%" (bt:current-thread) duration)
+      (safe-format "  ~S => Sleeping... [~A]~%" (patron:current-thread) duration)
       (sleep duration)
-      (safe-format "  ~S => Done!~%" (bt:current-thread)))))
+      (safe-format "  ~S => Done!~%" (patron:current-thread)))))
 
 (defun report-result (job)
   (safe-format "RESULT: JOB: ~S~%" job))
@@ -84,6 +84,7 @@ thread pools in minutes.
     (patron:stop-patron patron :wait t)
     (safe-format "Stopped.~%")
     (thread-stats patron)))
+
 ; Starting...
 ; Keepers: T T
 ; Workers: T T T

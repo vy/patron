@@ -43,9 +43,9 @@
   (prog1 queue
     (setf (head-of queue) (list t)
           (tail-of queue) (head-of queue)
-          (pop-lock-of queue) (lock-make)
+          (pop-lock-of queue) (make-lock)
           (pop-semaphore-of queue) (semaphore-make)
-          (push-lock-of queue) (lock-make)
+          (push-lock-of queue) (make-lock)
           (push-semaphore-of queue) (semaphore-make (size-of queue)))))
 
 (defun %queue-pop (queue &optional default)

@@ -32,7 +32,7 @@
 ;;; Thread & Locking Abstraction Layer
 ;;;
 
-(defun lock-make ()
+(defun make-lock ()
   (bt:make-lock))
 
 (defmacro with-lock (lock &body body)
@@ -48,7 +48,7 @@
          (funcall (function-of thread))))
       (semaphore-wait semaphore))))
 
-(defun thread-current ()
+(defun current-thread ()
   (bt:current-thread))
 
 (defun thread-alive-p (thread)
