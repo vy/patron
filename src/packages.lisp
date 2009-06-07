@@ -35,6 +35,18 @@
 (defpackage :patron
   (:use :cl)
   (:export
+   ;; Threading Utilities
+   :thread
+   :id-of
+   :function-of
+   :make-lock
+   :with-lock
+   :thread-start
+   :current-thread
+   :thread-alive-p
+   :thread-interrupt
+   :thread-join
+   :without-interrupts
    ;; Specials
    :timeout-duration
    :duration-of

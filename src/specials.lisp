@@ -297,7 +297,7 @@
     :type          keyword
     :documentation "State of the patron; either `ACTIVE', or `INACTIVE'.")
    (state-lock
-    :initform      (lock-make)
+    :initform      (make-lock)
     :reader        state-lock-of
     :documentation "Synchronization primitive for `STATE' slot.")
    (error-report-function
